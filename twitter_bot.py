@@ -10,8 +10,8 @@ auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET, CONSUMER_KEY, CONSUM
 
 twitter_api = twitter.Twitter(auth = auth)
 
-if os.path.isfile('all_tweets.json'):
-	with open('all_tweets.json',mode = 'r') as f:
+try:
+	with open('/home/ubuntu/twitter_bot/data/all_tweets.json',mode = 'r') as f:
 		old_tweets = json.load(f)
 	tl = twitter_api.statuses.home_timeline(count = 200, since_id = old_tweets[0]['id'])
 	writeToJSON(simplifyTwitterFeed(tl))
