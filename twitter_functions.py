@@ -20,14 +20,14 @@ def writeToJSON(recent_tweets):
 	""""
 	Writes a dictionary to a file in JSON format and in unicode(utf-8).
 	"""
-	if os.path.isfile('all_tweets.json'):
-		with open('all_tweets.json',mode = 'r') as f:
+	try:
+		with open('/home/ubuntu/twitter_bot/data/all_tweets.json',mode = 'r') as f:
 			old_tweets = json.load(f)
 
 		_tweets = recent_tweets + old_tweets
 
-		with open('all_tweets.json',mode = 'w') as f:
+		with open('/home/ubuntu/twitter_bot/data/all_tweets.json',mode = 'w') as f:
 			json.dump(_tweets,f, indent=4)
 	else:
-		with open('all_tweets.json','w') as f:
+		with open('/home/ubuntu/twitter_bot/data/all_tweets.json','w') as f:
 			json.dump(recent_tweets,f,indent=4)
