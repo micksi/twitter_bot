@@ -1,4 +1,4 @@
-import twitter, os, json
+import twitter, io, json
 from twitter_functions import *
 
 CONSUMER_KEY 		= 'wj5GCsbfLi5hIJLfKPxLHuD4g'
@@ -10,11 +10,19 @@ auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET, CONSUMER_KEY, CONSUM
 
 twitter_api = twitter.Twitter(auth = auth)
 
+#AmazonEC2
+dataPath = '/home/ubuntu/twitter_bot/data/'
+mainPath = '/home/ubuntu/twitter_bot/'
+
+#Local
+# dataPath = '/Users/WorkMachine/GDrive/DTU/socialGraphs/twitter_bot/data'
+# mainPath = '/Users/WorkMachine/GDrive/DTU/socialGraphs/twitter_bot'
+
 try:
-	with open('/home/ubuntu/twitter_bot/data/all_tweets.json',mode = 'r') as f:
+	with open(dataPath + '/all_tweets.json',mode = 'r') as f:
 		old_tweets = json.load(f)
 	tl = twitter_api.statuses.home_timeline(count = 200, since_id = old_tweets[0]['id'])
-	writeToJSON(simplifyTwitterFeed(tl))
-else:
+	writeToJSON(simplifyTwitterFeed(tl),dataPath + '/all_tweets.json')
+except IOError:
 	tl = twitter_api.statuses.home_timeline(count = 200)
-	writeToJSON(simplifyTwitterFeed(tl))
+	writeToJSON(simplifyTwitterFeed(tl),dataPath + '/all_tweets.json')

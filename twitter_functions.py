@@ -1,4 +1,4 @@
-import twitter, json, io, os
+import twitter, json, io
 
 def simplifyTwitterFeed(tweetfeed):
 	"""
@@ -16,18 +16,18 @@ def simplifyTwitterFeed(tweetfeed):
 						'user_id':tweet['user']['id']})
 	return tweets
 
-def writeToJSON(recent_tweets):
+def writeToJSON(recent_tweets, path):
 	""""
 	Writes a dictionary to a file in JSON format and in unicode(utf-8).
 	"""
 	try:
-		with open('/home/ubuntu/twitter_bot/data/all_tweets.json',mode = 'r') as f:
+		with open(path,mode = 'r') as f:
 			old_tweets = json.load(f)
 
 		_tweets = recent_tweets + old_tweets
 
-		with open('/home/ubuntu/twitter_bot/data/all_tweets.json',mode = 'w') as f:
+		with open(path,mode = 'w') as f:
 			json.dump(_tweets,f, indent=4)
-	else:
-		with open('/home/ubuntu/twitter_bot/data/all_tweets.json','w') as f:
+	except IOError:
+		with open(path,'w') as f:
 			json.dump(recent_tweets,f,indent=4)
