@@ -1,3 +1,5 @@
+#!/Users/WorkMachine/anaconda/bin/python
+
 import twitter
 import json 
 import io
@@ -13,15 +15,14 @@ auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET, CONSUMER_KEY, CONSUM
 twitter_api = twitter.Twitter(auth = auth)
 
 #AmazonEC2
-# dataPath = '/home/ubuntu/twitter_bot/data'
-# mainPath = '/home/ubuntu/twitter_bot'
+dataPath = '$HOME/ubuntu/twitter_bot/data'
+mainPath = '$HOME/ubuntu/twitter_bot'
 
 #Local
-dataPath = '/Users/WorkMachine/GDrive/DTU/socialGraphs/twitter_bot/data'
-mainPath = '/Users/WorkMachine/GDrive/DTU/socialGraphs/twitter_bot'
+# dataPath = '/Users/WorkMachine/GDrive/DTU/socialGraphs/twitter_bot/data'
+# mainPath = '/Users/WorkMachine/GDrive/DTU/socialGraphs/twitter_bot'
 
 try:
-	print dataPath + '/all_tweets.json'
 	with open(dataPath + '/all_tweets.json',mode = 'r') as f:
 		old_tweets = json.load(f)
 	tl = twitter_api.statuses.home_timeline(count = 200, since_id = old_tweets[0]['id'])
