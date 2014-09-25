@@ -11,8 +11,8 @@ auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET, CONSUMER_KEY, CONSUM
 twitter_api = twitter.Twitter(auth = auth)
 
 #AmazonEC2
-dataPath = '/home/ubuntu/twitter_bot/data/'
-mainPath = '/home/ubuntu/twitter_bot/'
+dataPath = '/home/ubuntu/twitter_bot/data'
+mainPath = '/home/ubuntu/twitter_bot'
 
 #Local
 # dataPath = '/Users/WorkMachine/GDrive/DTU/socialGraphs/twitter_bot/data'
