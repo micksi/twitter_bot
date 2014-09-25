@@ -1,4 +1,6 @@
-import twitter, json, io
+import twitter
+import json 
+import io
 
 def simplifyTwitterFeed(tweetfeed):
 	"""
