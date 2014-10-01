@@ -18,3 +18,5 @@ jamesLee = tf.TwitterUser(CONSUMER_KEY 			= 'wj5GCsbfLi5hIJLfKPxLHuD4g',
 						  OAUTH_TOKEN_SECRET 	= '1uhfzNCJCVH06RVIo60sGu1h8ptZZD3BfCsN3R307f4yZ',
 						  path 					= dataPath,
 						  user_screen_name		= 'canuckWong')
+
+jamesLee.reciprocal_follow_start(search_text='follow back')
