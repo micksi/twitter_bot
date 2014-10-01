@@ -2,6 +2,9 @@ import twitter
 import json 
 import io
 import re
+from datetime import datetime
+from datetime import timedelta
+import random
 
 class TwitterUser:
 	"""
@@ -46,6 +49,7 @@ class TwitterUser:
 			print 'Must specify search text! Quitting...'
 			return
 			
+		amount = int(random.random() * 20 + 1)
 
 		p = self.twitter_api.users.search(q=search_text, count=amount)
 		search_text = search_text.split()
@@ -68,12 +72,26 @@ class TwitterUser:
 		self._unfollow_no_friendship(file_=self.pending_txt)
 		self._save_id_list_to_file(self.pending_txt, truncate=True)
 
-	def tweet_most_retweeted(self):
+	def tweet_most_retweeted_in_last_24h(self):
 		"""
-		Tweets the most retweeted tweet from your own timeline
+		Tweet the most retweeted tweet in the last 24 hours from your own timeline
+		"""
+		with open(self.path + self.tl_tweets_json, mode='r') as f:
+			tweets = json.load(f)
+
+		last_24h_tweets = [tweet for tweet in tweets[:1000] if self._is_last_24h(tweet['created_at'])]
+		last_24h_retweet_count = [tweet['retweet_count'] for tweet in last_24h_tweets]
+
+		max_retweet = last_24h_retweet_count.index(max(last_24h_retweet_count))
+
+		#self.twitter_api.statuses.retweet last_24h_tweets[max_retweet]
+
+	def random_tweet(self):
+		"""
+		Make a random tweet, yet to be implemented
 		"""
 		pass
-	
+		
 #---------------------------- TOOLS ------------------------------
 	def _simplify_twitter_feed(self, tweetfeed):
 		"""
@@ -186,6 +204,34 @@ class TwitterUser:
 			with open(self.path + json_file,'w') as f:
 				json.dump(content, f, indent=4)
 
+	def _is_last_24h(self, tweet_date):
+		"""
+		Check if the tweet is from the last 24 hours.
+		The date have to be formatted as a single string:
+		'day_name month_name day_no hours_no minutes_no seconds_no random_no year_no'
+		"""
+		present = datetime.now()
+		tweet_date = str(tweet_date)
+		if (present - self._convert_tweet_date_to_datetime(tweet_date)) < timedelta(hours=24):
+			return True
+		else:
+			return False
+
+	def _convert_tweet_date_to_datetime(self, tweet_date):
+		"""
+		Converts the twitter field 'created_at' into datetime format
+		"""
+		months 	= {'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':9,'Oct':10,'Nov':11,'Dec':12}
+		date 	= re.split(':| ',tweet_date)
+		year 	= int(date[7])
+		month 	= int(months[date[1]])
+		day 	= int(date[2])
+		hour	= int(date[3])
+		minute	= int(date[4])
+		second	= int(date[5])
+
+		return datetime(year, month, day, hour, minute, second)
+
 	def _save_id_list_to_file(self, txt_file, content=None, truncate=False):
 		"""
 		Saves the content to a file in txt format. 
@@ -196,10 +242,6 @@ class TwitterUser:
 				pass
 			print 'deleting content in: ' + txt_file + '!'
 			return 
-
-		if content == None:
-			print 'Must specify content argument'
-			return
 
 		if type(content) != list:
 			content = [content] 
@@ -217,10 +259,3 @@ class TwitterUser:
 			with open(self.path + txt_file, mode='w') as f:
 				total_content = [(str(e)+'\n') for e in content]
 				[f.write(line) for line in total_content]
-
-
-
-
-
-
-
