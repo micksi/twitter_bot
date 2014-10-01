@@ -27,7 +27,7 @@ class TwitterUser:
 		"""
 		
 		try:
-			with open(self.path + self.tl_tweets ,mode = 'r') as f:
+			with open(self.path + self.tl_tweets_json ,mode = 'r') as f:
 				old_tweets = json.load(f)
 
 			tl = twitter_api.statuses.home_timeline(count = 200, since_id = old_tweets[0]['id'])
