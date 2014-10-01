@@ -30,11 +30,11 @@ class TwitterUser:
 			with open(self.path + self.tl_tweets_json ,mode = 'r') as f:
 				old_tweets = json.load(f)
 
-			tl = twitter_api.statuses.home_timeline(count = 200, since_id = old_tweets[0]['id'])
-			write_to_json(_simplify_twitter_feed(tl), self.path + self.tl_tweets_json)
+			tl = self.twitter_api.statuses.home_timeline(count = 200, since_id = old_tweets[0]['id'])
+			self.write_to_json(_simplify_twitter_feed(tl), self.path + self.tl_tweets_json)
 		except IOError:
-			tl = twitter_api.statuses.home_timeline(count = 200)
-			writeToJSON(_simplify_twitter_feed(tl), self.path + self.tl_tweets_json)
+			tl = self.twitter_api.statuses.home_timeline(count = 200)
+			self.write_to_json(_simplify_twitter_feed(tl), self.path + self.tl_tweets_json)
 
 	def reciprocal_follow_start(self,search_text=None, amount=2): 
 		"""
