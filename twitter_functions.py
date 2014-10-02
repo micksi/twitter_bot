@@ -51,15 +51,15 @@ class TwitterUser:
 			print 'Must specify search text! Quitting...'
 			return
 			
-		amount = int(random.random() * 20 + 10)
-		page_no = int(random.random() * 100+1)
+		amount = int(random.random() * 20 + 1) # Max 20 users per page
+		page_no = int(random.random() * 50+1) # Max 50 pages
 		p = self.twitter_api.users.search(q=search_text, count=amount, page=page_no)
 		search_text = search_text.split()
 
 		p2f = []
 		for person in p:
 			for word in search_text:
-				if bool(re.search(word, person['description'])):
+				if bool(re.search(word, person['description'])) and (float(person['friends_count']) / person['followers_count']) > 1:
 					p2f.append(person)
 					break
 
