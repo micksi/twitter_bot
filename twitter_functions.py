@@ -51,9 +51,9 @@ class TwitterUser:
 			print 'Must specify search text! Quitting...'
 			return
 			
-		amount = int(random.random() * 20 + 1)
-
-		p = self.twitter_api.users.search(q=search_text, count=amount)
+		amount = int(random.random() * 20 + 10)
+		page_no = int(random.random() * 100+1)
+		p = self.twitter_api.users.search(q=search_text, count=amount, page=page_no)
 		search_text = search_text.split()
 
 		p2f = []
