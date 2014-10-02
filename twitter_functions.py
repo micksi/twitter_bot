@@ -61,6 +61,7 @@ class TwitterUser:
 			for word in search_text:
 				if bool(re.search(word, person['description'])):
 					p2f.append(person)
+					break
 
 		p2f_ids = [person['id'] for person in p2f]
 		self._save_id_list_to_file(self.pending_txt, content=p2f_ids)
