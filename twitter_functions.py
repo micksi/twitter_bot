@@ -52,7 +52,7 @@ class TwitterUser:
 			return
 			
 		amount = int(random.random() * 20 + 1) # Max 20 users per page
-		page_no = int(random.random() * 50+1) # Max 50 pages
+		page_no = int(random.random() * 20+1) # Max 50 pages
 		p = self.twitter_api.users.search(q=search_text, count=amount, page=page_no)
 		search_text = search_text.split()
 
@@ -68,7 +68,7 @@ class TwitterUser:
 
 		[self._follow_id(id_) for id_ in p2f_ids]
 
-		print 'Start Reciprocal - following ' + str(amount) + ' new friends'
+		print 'Start Reciprocal - following ' + str(len(p2f_ids)) + '/' + str(amount) + ' new friends'
 
 	def reciprocal_follow_end(self):
 		"""
