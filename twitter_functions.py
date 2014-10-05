@@ -59,7 +59,7 @@ class TwitterUser:
 		p2f = []
 		for person in p:
 			for word in search_text:
-				if bool(re.search(word, person['description'])) and (float(person['friends_count']) / person['followers_count']) > 1:
+				if bool(re.search(word, person['description'])): #and (float(person['friends_count']) / person['followers_count']) > 1:
 					p2f.append(person)
 					break
 
@@ -86,12 +86,13 @@ class TwitterUser:
 		with open(self.path + self.tl_tweets_json, mode='r') as f:
 			tweets = json.load(f)
 
-		last_24h_tweets = [tweet for tweet in tweets[:1000] if self._is_last_24h(tweet['created_at'])]
+		last_24h_tweets = [tweet for tweet in tweets[:3000] if self._is_last_24h(tweet['created_at'])]
 		last_24h_retweet_count = [tweet['retweet_count'] for tweet in last_24h_tweets]
 
-		max_retweet = last_24h_retweet_count.index(max(last_24h_retweet_count))
+		max_retweet_index = last_24h_retweet_count.index(max(last_24h_retweet_count))
 
-		#self.twitter_api.statuses.retweet last_24h_tweets[max_retweet]
+		self.twitter_api.statuses.retweet(id=tweets[max_retweet_index]['id'])
+		
 
 	def random_tweet(self):
 		"""
