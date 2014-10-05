@@ -39,7 +39,7 @@ class TwitterUser:
 			tl = self.twitter_api.statuses.home_timeline(count = 200)
 			self._write_to_json(self._simplify_twitter_feed(tl), self.tl_tweets_json)
 
-		print "TWEETS - added: " + str(len(tl)) + " tweets to " + self.tl_tweets_json
+		#print "TWEETS - added: " + str(len(tl)) + " tweets to " + self.tl_tweets_json
 
 	def reciprocal_follow_start(self,search_text=None, amount=2): 
 		"""
@@ -77,7 +77,7 @@ class TwitterUser:
 		self._unfollow_no_friendship(file_=self.pending_txt)
 		self._save_id_list_to_file(self.pending_txt, truncate=True)
 
-		print 'End Reciprocal - unfollowing friend because their did not follow back'
+		print 'End Reciprocal - unfollowing friends because they did not follow back'
 
 	def tweet_most_retweeted_in_last_24h(self):
 		"""
