@@ -19,4 +19,4 @@ jamesLee = tf.TwitterUser(CONSUMER_KEY 			= 'wj5GCsbfLi5hIJLfKPxLHuD4g',
 						  path 					= dataPath,
 						  user_screen_name		= 'canuckWong')
 
-jamesLee.reciprocal_follow_start(search_text='canuck vancouver')
+jamesLee.reciprocal_follow_start(search_text='followback')

@@ -41,7 +41,7 @@ class TwitterUser:
 
 		#print "TWEETS - added: " + str(len(tl)) + " tweets to " + self.tl_tweets_json
 
-	def reciprocal_follow_start(self,search_text=None, amount=2): 
+	def reciprocal_follow_start(self,search_text=None): 
 		"""
 		Start the reciprocal follow routine
 		Follow amount(2) if they don't follow back remove them from your friends.
@@ -51,24 +51,24 @@ class TwitterUser:
 			print 'Must specify search text! Quitting...'
 			return
 			
-		amount = int(random.random() * 20 + 1) # Max 20 users per page
 		page_no = int(random.random() * 20+1) # Max 50 pages
-		p = self.twitter_api.users.search(q=search_text, count=amount, page=page_no)
+		p = self.twitter_api.users.search(q=search_text, count=20, page=page_no)
 		search_text = search_text.split()
 
 		p2f = []
 		for person in p:
 			for word in search_text:
-				if bool(re.search(word, person['description'])): #and (float(person['friends_count']) / person['followers_count']) > 1:
-					p2f.append(person)
-					break
+				p2f.append(person['id'])
+				#if bool(re.search(word, person['description'])): #and (float(person['friends_count']) / person['followers_count']) > 1:
+				
+					
 
-		p2f_ids = [person['id'] for person in p2f]
-		self._save_id_list_to_file(self.pending_txt, content=p2f_ids)
+		self._save_id_list_to_file(self.pending_txt, content=p2f)
 
-		[self._follow_id(id_) for id_ in p2f_ids]
+		print len(p2f)
+		self._follow_id(p2f)
 
-		print 'Start Reciprocal - following ' + str(len(p2f_ids)) + '/' + str(amount) + ' new friends'
+		print 'Reciprocal Follow is started'
 
 	def reciprocal_follow_end(self):
 		"""
@@ -86,13 +86,14 @@ class TwitterUser:
 		with open(self.path + self.tl_tweets_json, mode='r') as f:
 			tweets = json.load(f)
 
-		last_24h_tweets = [tweet for tweet in tweets[:3000] if self._is_last_24h(tweet['created_at'])]
+		last_24h_tweets = [tweet for tweet in tweets[:3000] if self._is_last_24h(tweet['created_at']) and tweet['retweet_count'] < 2000]
 		last_24h_retweet_count = [tweet['retweet_count'] for tweet in last_24h_tweets]
 
 		max_retweet_index = last_24h_retweet_count.index(max(last_24h_retweet_count))
 
 		self.twitter_api.statuses.retweet(id=tweets[max_retweet_index]['id'])
-		
+		#self.twitter_api.statuses.retweet(id=519406310165839872)
+		#print tweets[max_retweet_index]['id']
 
 	def random_tweet(self):
 		"""
@@ -158,7 +159,7 @@ class TwitterUser:
 					relation = self.twitter_api.friendships.show(source_screen_name=self.user_screen_name, target_id=id_)
 					if relation['relationship']['target']['following'] == False:
 						self._unfollow_id(id_)
-			except IOError:
+			except twitter_api.TwitterHTTPError:
 				print 'Something went wrong when defriending!?'
 
 	def _follow_id(self, follow_id):
@@ -175,7 +176,7 @@ class TwitterUser:
 				tried_list = self._get_ids_list_from_file(self.tried_txt)
 				p_2_follow = [id_ for id_ in follow_id if id_ not in tried_list]
 
-				[self.twitter_api.friendships.create(user_id=id_) for id_ in p_2_follow]
+				#[self.twitter_api.friendships.create(user_id=id_) for id_ in p_2_follow]
 
 				self._save_id_list_to_file(self.tried_txt, content=follow_id)
 				print 'tried to friend: ' + str(len(p_2_follow)) + ' person(s). Total: ' + str(len(follow_id))
