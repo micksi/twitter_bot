@@ -176,7 +176,7 @@ class TwitterUser:
 				tried_list = self._get_ids_list_from_file(self.tried_txt)
 				p_2_follow = [id_ for id_ in follow_id if id_ not in tried_list]
 
-				#[self.twitter_api.friendships.create(user_id=id_) for id_ in p_2_follow]
+				[self.twitter_api.friendships.create(user_id=id_) for id_ in p_2_follow]
 
 				self._save_id_list_to_file(self.tried_txt, content=follow_id)
 				print 'tried to friend: ' + str(len(p_2_follow)) + ' person(s). Total: ' + str(len(follow_id))
