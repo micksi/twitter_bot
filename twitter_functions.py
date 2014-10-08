@@ -65,7 +65,6 @@ class TwitterUser:
 
 		self._save_id_list_to_file(self.pending_txt, content=p2f)
 
-		print len(p2f)
 		self._follow_id(p2f)
 
 		print 'Reciprocal Follow is started'
