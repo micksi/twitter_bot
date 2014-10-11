@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import twitter_functions as tf
 from sys import platform as _platform
