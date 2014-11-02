@@ -7,7 +7,7 @@ if _platform == 'linux' or _platform == 'linux2':
     DATAPATH = '/home/ubuntu/twitter_bot/data/'
 elif _platform == 'darwin':
     # OS X - Local
-    DATAPATH = '/Users/WorkMachine/GDrive/DTU/socialGraphs/twitter_bot/data/'
+    DATAPATH = '/Users/mickneupart/GDrive/DTU/socialGraphs/twitter_bot/data/'
 elif _platform == 'win32':
     pass
 
@@ -20,30 +20,30 @@ JAMESLEE = tf.TwitterUser(
     user_screen_name='canuckWong',
 )
 
-OLDED_THAN_TWEET = 518810391942819840
-AMOUNT = 100
-HASHTAGS = [
-    'canucks',
-    'vancouver',
-    'hockey',
-    'gastown',
-    'whistler',
-    'stanleypark',
-    'englishbay',
-    'sfu',
-    'vancity',
-    'raincouver',
-    'yvr',
-]
+# OLDER_THAN_TWEET = 518810391942819840
+# AMOUNT = 100
+# HASHTAGS = [
+#     'canucks',
+#     'vancouver',
+#     'hockey',
+#     'gastown',
+#     'whistler',
+#     'stanleypark',
+#     'englishbay',
+#     'sfu',
+#     'vancity',
+#     'raincouver',
+#     'yvr',
+# ]
 
-GEO_VANCOUVER = '49.28057636458604,-123.123702581543,10km'
+# GEO_VANCOUVER = '49.28057636458604,-123.123702581543,10km'
 
-HASHTAG_TWEETS = []
-for i in enumerate(HASHTAGS):
-    HASHTAG_TWEETS.append(JAMESLEE.twitter_api.search.tweets(q='#canucks',
-                                                             count=AMOUNT,
-                                                             max_id=OLDED_THAN_TWEET,
-                                                             geocode=GEO_VANCOUVER))
+# HASHTAG_TWEETS = []
+# for i in enumerate(HASHTAGS):
+#     HASHTAG_TWEETS.append(JAMESLEE.twitter_api.search.tweets(q='#canucks',
+#                                                              count=AMOUNT,
+#                                                              max_id=OLDER_THAN_TWEET,
+#                                                              geocode=GEO_VANCOUVER))
 
 # all_tweets = canucks + vancouver + hockey + gastown + whistler +
 # stanleypark + englishbay + sfu + vancity + raincouver + yvr
