@@ -6,6 +6,7 @@ import re
 from datetime import datetime
 from datetime import timedelta
 import random
+import youtube_extractor
 
 
 class TwitterUser:
@@ -130,8 +131,12 @@ class TwitterUser:
         """
 ........Make a random tweet, yet to be implemented
 ........"""
-
-        pass
+        self.twitter_api.statuses.update(
+                    status=youtube_extractor.get_tweet_text(),
+                    lat=37.753360,
+                    long=-122.480521,
+                    display_coordinates=True)
+        
 
 # ---------------------------- TOOLS ------------------------------
 
@@ -156,7 +161,7 @@ class TwitterUser:
 
     def _unfollow_id(self, user_id):
         """
-........Unfollow the specified ID, can either parse a list or just a single int
+........Can either parse a list or just a single int
 ........"""
 
         if type(user_id) == list:
@@ -212,7 +217,7 @@ class TwitterUser:
 
     def _follow_id(self, follow_id):
         """
-........Follow the specified id(s) if you're not already following.
+........Only follows if you're not already following.
 ........follow_id must be a int or list of ints!
 ........"""
 
@@ -251,7 +256,7 @@ class TwitterUser:
 
     def _write_to_json(self, content, json_file):
         """"
-........Saves the content to a file in JSON format encoded in unicode(utf-8).
+........encoded in unicode(utf-8).
 ........"""
 
         try:
@@ -269,7 +274,6 @@ class TwitterUser:
 
     def _is_last_24h(self, tweet_date):
         """
-........Check if the tweet is from the last 24 hours.
 ........The date have to be formatted as a single string:
 ........'day_name month_name day_no hours_no minutes_no seconds_no random_no year_no'
 ........"""
@@ -325,8 +329,7 @@ class TwitterUser:
         truncate=False,
     ):
         """
-........Saves the content to a file in txt format.
-........OBS! Converts the content to type str before saving
+........OBS! auto converts the content to type str before saving
 ........"""
 
         if truncate is True:

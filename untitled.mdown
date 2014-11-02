@@ -1,8 +1,0 @@
-# Problem
-Continue work on-the-go/while waiting (not at the your workstation)
-
-# User segment
-businesses < 20 employees
-
-# Unique Value Proposition
-Easy and fast scheduling of interviews
