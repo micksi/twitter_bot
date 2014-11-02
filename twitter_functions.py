@@ -65,33 +65,37 @@ class TwitterUser:
         # print "TWEETS - added: " + str(len(tl)) + " tweets to " +
         # self.tl_tweets_json
 
-    def reciprocal_follow_start(self, search_text=None):
+    def reciprocal_follow_start(self, search_text, geo=False):
         """
 ........Start the reciprocal follow routine
 ........Follow amount(2) if they don't follow back remove them from your friends.
 ........"""
 
-        if search_text is None:
-            print 'Must specify search text! Quitting...'
-            return
-
         page_no = int(random.random() * 20 + 1)  # Max 50 pages
         p = self.twitter_api.users.search(q=search_text, count=20,
                                           page=page_no)
-        search_text = search_text.split()
 
+        # Follow bots
         p2f = []
         for person in p:
             for word in search_text:
                 p2f.append(person['id'])
-
-                # if bool(re.search(word, person['description'])): #and
-                # (float(person['friends_count']) / person['followers_count'])
-                # > 1:
-
+        
         self._save_id_list_to_file(self.pending_txt, content=p2f)
-
         self._follow_id(p2f)
+
+        # Follow humans in SAN FRANCISCO
+        SF_LAT = 37.753360
+        SF_LONG = -122.480521
+        radius = '50km'
+        humans = twitter_api.search.tweets(geocode=area, lang='en', count=25)
+
+        h2f2 = [status['user']['id'] for status in humans['statuses']
+                    if (float(status['user']['friends_count'])/ \
+                        status['user']['followers_count']) > 0.7]
+
+        self._save_id_list_to_file(self.pending_txt, content=h2f2)
+        self._follow_id(h2f2)
 
         print 'Reciprocal Follow is started'
 
@@ -113,9 +117,9 @@ class TwitterUser:
         with open(self.path + self.tl_tweets_json, mode='r') as f:
             tweets = json.load(f)
 
-        last_24h_tweets = [tweet for tweet in tweets[:3000]
+        last_24h_tweets = [tweet for tweet in tweets[:5000]
                            if self._is_last_24h(tweet['created_at'])
-                           and tweet['retweet_count'] < 2000]
+                           and tweet['retweet_count'] > 10]
         last_24h_retweet_count = [tweet['retweet_count'] for tweet in
                                   last_24h_tweets]
 
