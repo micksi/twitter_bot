@@ -120,7 +120,7 @@ def _convert_youtube_date_to_datetime(youtube_date):
         'Nov': 11,
         'Dec': 12,
     }
-    date = date.split()
+    date = youtube_date.split()
     year = int(date[2])
     month = int(months[date[0]])
     day = int(date[1].strip(','))
