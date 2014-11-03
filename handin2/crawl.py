@@ -7,10 +7,10 @@ from sys import platform as _platform
 
 if _platform == 'linux' or _platform == 'linux2':
     # linux - AmazonEC2
-    DATAPATH = '/home/ubuntu/twitter_bot/handin2/'
+    path = '/home/ubuntu/twitter_bot/handin2/'
 elif _platform == 'darwin':
     # OS X - Local
-    DATAPATH = '"/Users/mickneupart/gdrive/DTU/socialGraphs/handin2/"'
+    path = '/Users/mickneupart/gdrive/DTU/socialGraphs/handin2/'
 elif _platform == 'win32':
     pass
 
@@ -43,8 +43,6 @@ auth = twitter.oauth.OAuth(OAUTH_TOKEN,
                            CONSUMER_SECRET)
 
 twitter_api = twitter.Twitter(auth=auth)
-
-path = 
 	
 with open(path + 'not_tried_ids.txt', mode='r') as f:
 	ids = [int(id) for id in f.readlines()]
@@ -71,7 +69,9 @@ for id in try_ids:
 		   'friends':user_friends}
 	users.append(tmp)
 
-write_to_json(remaining_ids, path)
+with open(path + 'not_tried_ids.txt', mode='w') as f:
+	[f.write(str(id) + '\n') for id in remaining_ids]
+
 write_to_json(users, path)
 
 
