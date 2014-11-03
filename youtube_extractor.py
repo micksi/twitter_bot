@@ -101,7 +101,7 @@ def _is_today(date):
 	else:
 		return False
 
-def _convert_tweet_date_to_datetime(self, date):
+def _convert_youtube_date_to_datetime(youtube_date):
     """
 ....English (US) lang
 ...."""
