@@ -75,7 +75,7 @@ def get_upload_date(url):
 	vid_meta = re.search('class="watch-time-text">.*?</strong>',html_text)
 	vid_date = vid_meta.group()
 
-	date = _clean_string(vid_date, 'class="watch-time-text">Offentliggjort den ',
+	date = _clean_string(vid_date, 'class="watch-time-text">Published on ',
 						'</strong>')
 	b.close()
 
@@ -101,29 +101,60 @@ def _is_today(date):
 	else:
 		return False
 
-def _convert_youtube_date_to_datetime(youtube_date):
+def _convert_tweet_date_to_datetime(self, date):
     """
-....Converts the twitter field 'created_at' into datetime format
+....English (US) lang
 ...."""
-    date = re.split('/', youtube_date)
 
-    if date[0].startswith('0'):
-        day = int(date[0][1:])
-    else:
-        day = int(date[0])
-
-    if date[1].startswith('0'):
-        month = int(date[1][1:])
-    else:
-        month = int(date[1])
-
+    months = {
+        'Jan': 1,
+        'Feb': 2,
+        'Mar': 3,
+        'Apr': 4,
+        'May': 5,
+        'Jun': 6,
+        'Jul': 7,
+        'Aug': 8,
+        'Sep': 9,
+        'Oct': 10,
+        'Nov': 11,
+        'Dec': 12,
+    }
+    date = date.split()
     year = int(date[2])
-    
+    month = int(months[date[0]])
+    day = int(date[1].strip(','))
+
     return datetime(
         year,
         month,
-        day,
+        day
     )
+
+
+# def _convert_youtube_date_to_datetime(youtube_date):
+#     """
+# ....Danish lang
+# ...."""
+#     date = re.split('/', youtube_date)
+
+#     if date[0].startswith('0'):
+#         day = int(date[0][1:])
+#     else:
+#         day = int(date[0])
+
+#     if date[1].startswith('0'):
+#         month = int(date[1][1:])
+#     else:
+#         month = int(date[1])
+
+#     year = int(date[2])
+    
+#     return datetime(
+#         year,
+#         month,
+#         day,
+#     )
 
 
 # execfile("youtube_extractor.py")
